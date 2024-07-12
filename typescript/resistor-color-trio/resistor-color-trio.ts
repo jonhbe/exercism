@@ -12,25 +12,29 @@ export function decodedResistorValue(colors: string[]) {
         white: 9
     }
 
-    const decoded = colors.map(color => colorValues[color]);
-    const values = decoded.slice(0,2).filter(value => value > 0) ?? 0;
-    let numberOfTrailingZeroes = decoded[1] === 0 ? decoded[2] + 1 : decoded[2]
+    let [tens, ones, numberOfTrailingZeroes] = colors.map(color => colorValues[color]);
+
+    let result = [tens,ones,...Array<number>(numberOfTrailingZeroes).fill(0)]
+    if (tens === 0) {
+        result = result.slice(1)
+        if (ones === 0) {
+            result = [0]
+        }
+    }
+
     let suffix = ''
-    if (numberOfTrailingZeroes >= 9) {
-        numberOfTrailingZeroes -= 9;
+    let trailingZeros = result.slice(1).filter(n => n === 0).length
+    if (trailingZeros >= 9) {
+        result = result.slice(0, result.length - 9);
         suffix = 'gigaohms';
-    } else if (numberOfTrailingZeroes >= 6) {
-        numberOfTrailingZeroes -= 6;
+    } else if (trailingZeros >= 6) {
+        result = result.slice(0, result.length - 6);
         suffix = 'megaohms';
-    } else if (numberOfTrailingZeroes >= 3) {
-        numberOfTrailingZeroes -= 3;
+    } else if (trailingZeros >= 3) {
+        result = result.slice(0,result.length - 3);
         suffix = 'kiloohms';
-    } else  {
+    } else {
         suffix = 'ohms';
     }
-    let zeros = [];
-    for (let i = 0; i < numberOfTrailingZeroes; i++) {
-        zeros.push(0)
-    }
-    return [...values, ...zeros].join('').concat(' ', suffix)
+    return result.join('').concat(' ', suffix)
 }
