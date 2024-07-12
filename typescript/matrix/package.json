@@ -1,11 +1,7 @@
 {
-  "name": "@exercism/typescript-resistor-color-trio",
+  "name": "@exercism/typescript-matrix",
   "version": "1.0.0",
-  "description": "Exercism practice exercise on resistor-color-trio",
-  "author": "Katrina Owen",
-  "contributors": [
-    "Derk-Jan Karrenbeld <derk-jan+git@karrenbeld.info> (https://derk-jan.com)"
-  ],
+  "description": "Exercism exercises in Typescript.",
   "private": true,
   "repository": {
     "type": "git",
